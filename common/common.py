@@ -1,20 +1,6 @@
-#!/usr/bin/env python
-
-#############################################################################################################################################
-__filename__ = "common.py"
-__description__ = """Consists of common functions at the browser level, and at the system (buzzmove) level"""
-__author__ = "Anand Iyer"
-__copyright__ = "Copyright 2017"
-__credits__ = ["Anand Iyer"]
-__version__ = "1.0"
-__maintainer__ = "Anand Iyer"
-__email__ = "ananddotiyer@gmail.com"
-__status__ = "Testing" # Upgrade to Production once tested to function.
-#############################################################################################################################################
-
 from selenium import webdriver
-from config import *
-from selenium_wrappers import *
+from common.config import *
+from common.selenium_wrappers import *
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 import requests
@@ -41,12 +27,12 @@ def euler_setup (browser, url_to_open=site_url):
         driver.implicitly_wait(wait_most) # seconds
         driver.maximize_window()
         driver.get(url_to_open)
-    
+
     return driver
 
 def select_date_in_calendar (driver, calendar, date_xpath):
     click (calendar, wait_less)
-    
+
     #date = driver.find_element_by_xpath("(//td[@data-title='r5c6'])[3]")
     date = driver.find_element_by_xpath (date_xpath)
     click (date, wait_least)
@@ -69,10 +55,10 @@ def call_api(parameters):
         port = parameters["port"]
     else:
         port = ""
-        
+
     api_url = parameters["api_url"]
 
-    api_params = parameters["api_params"]    
+    api_params = parameters["api_params"]
 
     if "api_headers" in parameters.keys():
         api_headers = parameters["api_headers"]
@@ -81,18 +67,18 @@ def call_api(parameters):
 
     #forming the request
     api_url = base_url + ":" + str (port) + "/" + api_url
-    
+
     if api_type == "GET":
         api_params_set = "?"
         for param in api_params.keys():
             api_params_set = api_params_set + param + "=" + api_params[param] + "&"
-    
+
         api_url = (api_url + api_params_set)[:-1]
 
     #making the request
     if api_type == "GET":
         response = requests.get (api_url, headers=api_headers)
-       
+
     if api_type == "DELETE":
         response = requests.delete (api_url)
 
@@ -132,7 +118,7 @@ def get_cookies(driver):
             target.write (",")
         target.write (str (cookie["path"]) + ", "),
         target.write (str (cookie["name"]) + "\n")
-        
+
 def minutes_seconds (timedelta):
     minutes = int (timedelta / 60)
     seconds = int (timedelta % 60)
@@ -165,7 +151,7 @@ def write (f, column=None, embed=True, blanks=1):
 
     for blank in range (blanks):
         f.write (",")
-            
+
 def writeline (f, column=None, embed=True):
     write (f, column, embed)
     f.write ("\n")
