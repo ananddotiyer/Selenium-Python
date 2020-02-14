@@ -7,8 +7,8 @@ from common.selenium_wrappers import *
 from common.common import euler_setup
 import HTMLTestRunner
 
-#run_mode = "HTML"
-run_mode = "TEXT"
+run_mode = "HTML"
+#run_mode = "TEXT"
 
 test_suite = unittest.TestSuite()
 
@@ -22,7 +22,7 @@ test_suite.addTest(test_menu_options('test_about_archives'))
 #######################################run above test_suite######################################
 if run_mode == 'HTML':
     dateTimeStamp = time.strftime('%Y%m%d_%H_%M_%S')
-    buf = file("TestReport" + "_" + dateTimeStamp + ".html", 'wb')
+    buf = open("TestReport" + "_" + dateTimeStamp + ".html", 'wb')
     runner = HTMLTestRunner.HTMLTestRunner(
             stream=buf,
             verbosity=2,
